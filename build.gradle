@@ -1,0 +1,65 @@
+plugins {
+    id 'org.jetbrains.kotlin.jvm' version '1.9.21'
+    id 'org.openjfx.javafxplugin' version '0.0.12'
+    id 'application'
+    // sping 插件
+    id 'org.jetbrains.kotlin.plugin.spring' version '1.9.25'
+    id 'org.springframework.boot' version '3.3.3'
+    id 'io.spring.dependency-management' version '1.1.6'
+}
+
+group = 'com.telecwin.javafx'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+    maven {
+        url = uri("https://company/com/maven2")
+    }
+    mavenLocal()
+    flatDir {
+        dirs "libs"
+    }
+}
+
+// 配置要使用的 javafx 版本
+javafx {
+    version = "17"
+    modules = ['javafx.controls', 'javafx.fxml', 'javafx.swing','javafx.web']
+}
+
+application {
+    mainClassName = 'com.telecwin.javafx.Mainkt'
+}
+
+dependencies {
+    implementation("org.jetbrains.kotlin:kotlin-stdlib") // 显式引入 Kotlin 标准库
+    testImplementation 'org.jetbrains.kotlin:kotlin-test'
+
+    // spring boot 依赖
+    implementation 'org.springframework.boot:spring-boot-starter'
+    implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation 'org.jetbrains.kotlin:kotlin-reflect'
+    implementation group: 'org.springframework.boot', name: 'spring-boot-configuration-processor', version: '3.3.3'
+    // 日志
+//    implementation group: 'org.slf4j', name: 'slf4j-api', version: '1.7.25'
+    // 工具类
+    implementation('org.apache.commons:commons-lang3:3.12.0')
+    //json
+    implementation 'com.alibaba:fastjson:1.2.79'
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.jetbrains.kotlin:kotlin-test-junit5'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+}
+
+
+
+
+test {
+    useJUnitPlatform()
+}
+kotlin {
+    jvmToolchain(17)
+}

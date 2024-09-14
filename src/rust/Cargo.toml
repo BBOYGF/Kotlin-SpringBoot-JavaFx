@@ -1,0 +1,18 @@
+[package]
+name = "地质雷达数据处理分析软件"
+version = "1.0.0"
+authors = ["fan.guo <fan.guo@telecwin.com>"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+build = "build.rs"
+
+[build-dependencies]
+winres = "0.1.11"
+
+[dependencies]
+# winres = { path="/cygdrive/f/lab/rust/winres" }
+sys-info = "0.9.1"
+serde = { version = "1.0.104", features = ["derive"] }
+serde_json = "1.0.48"
