@@ -1,8 +1,8 @@
 plugins {
     id 'org.jetbrains.kotlin.jvm' version '1.9.21'
     id 'org.openjfx.javafxplugin' version '0.0.12'
-    id 'application'
-    // sping 插件
+//    id 'application'
+//     sping 插件
     id 'org.jetbrains.kotlin.plugin.spring' version '1.9.25'
     id 'org.springframework.boot' version '3.3.3'
     id 'io.spring.dependency-management' version '1.1.6'
@@ -28,13 +28,15 @@ javafx {
     modules = ['javafx.controls', 'javafx.fxml', 'javafx.swing','javafx.web']
 }
 
-application {
-    mainClassName = 'com.telecwin.javafx.Mainkt'
-}
+//application {
+//    mainClassName = 'com.telecwin.javafx.Main'
+//}
 
 dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib") // 显式引入 Kotlin 标准库
     testImplementation 'org.jetbrains.kotlin:kotlin-test'
+    // 协程
+    implementation group: 'org.jetbrains.kotlinx', name: 'kotlinx-coroutines-javafx', version: '1.9.0'
 
     // spring boot 依赖
     implementation 'org.springframework.boot:spring-boot-starter'

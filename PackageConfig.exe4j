@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<exe4j version="9.0" transformSequenceNumber="3">
+  <directoryPresets config="C:/projects/kotlin_springboot_javaFx/build/libs" />
+  <application name="短名字" distributionSourceDir="C:/projects/kotlin_springboot_javaFx/build/libs" />
+  <executable name="长名字" iconSet="true" iconFile="C:/Users/66413/Desktop/a45bu-475nh-001.ico" executableMode="gui" />
+  <splashScreen bitmapFile="C:/projects/subgrade_radar_analysis/src/main/resources/images/splash.png" />
+  <java mainClass="org.springframework.boot.loader.launch.JarLauncher" allowVMPassthroughParameters="false" minVersion="17" maxVersion="17">
+    <classPath>
+      <archive location="C:/projects/kotlin_springboot_javaFx/build/libs/kotlin_springboot_javaFx-1.0-SNAPSHOT.jar" failOnError="false" />
+    </classPath>
+  </java>
+</exe4j>
