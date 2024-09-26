@@ -1,2 +1,10 @@
 server:
   port: 8082
+
+spring:
+  ## 数据库配置
+  datasource:
+    url: jdbc:sqlite:.\data\database.db3
+    username:
+    password:
+    driver-class-name: org.sqlite.JDBC

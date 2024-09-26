@@ -1,0 +1,5 @@
+# 虚拟机参数
+
+```C
+--module-path D:\java\javafx-sdk-17.0.2\lib\ --add-modules javafx.controls,javafx.fxml,javafx.web,jdk.charsets,java.management, --add-reads javafx.graphics=ALL-UNNAMED --add-opens javafx.controls/com.sun.javafx.charts=ALL-UNNAMED --add-opens javafx.graphics/com.sun.javafx.iio=ALL-UNNAMED --add-opens javafx.graphics/com.sun.javafx.iio.common=ALL-UNNAMED --add-opens javafx.graphics/com.sun.javafx.css=ALL-UNNAMED --add-opens javafx.base/com.sun.javafx.runtime=ALL-UNNAMED --add-opens javafx.base/com.sun.javafx.collections=ALL-UNNAMED --add-opens javafx.controls/com.sun.javafx.charts=javafx.fxml --add-opens javafx.base/com.sun.javafx.event=ALL-UNNAMED --add-opens java.base/java.lang=ALL-UNNAMED --add-opens java.base/java.lang.invoke=ALL-UNNAMED --add-opens javafx.controls/javafx.scene.chart=ALL-UNNAMED -Dprism.maxvram=3G -Dprism.order=sw
+```

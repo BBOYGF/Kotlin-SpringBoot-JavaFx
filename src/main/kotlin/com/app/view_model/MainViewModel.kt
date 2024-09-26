@@ -1,4 +1,4 @@
-package com.telecwin.javafx.view_model
+package com.app.view_model
 
 import javafx.beans.property.SimpleStringProperty
 

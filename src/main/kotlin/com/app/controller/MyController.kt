@@ -1,5 +1,5 @@
-package com.telecwin.javafx.controller
-import com.telecwin.javafx.service.MyService
+package com.app.controller
+import com.app.service.MyService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RestController
