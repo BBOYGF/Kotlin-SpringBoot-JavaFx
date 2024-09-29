@@ -8,12 +8,32 @@ https://www.rust-lang.org/zh-CN/learn/get-started
 
 需要使用 rustc 1.61.0 版本，更好的版本会导致无法启动 javaw.exe 程序。
 
-安装命令：
+* 安装命令：
 
 ```
 rustup install 1.61.0
 # 然后让 rust 切换到该版本
 rustup default 1.61.0
+```
+
+* 产生异常:
+
+```
+error: package `cc v1.1.22` cannot be built because it requires rustc 1.63 or newer, while the currently active rustc version is 1.61.0
+
+```
+* cc模块需要升级rust到1.63
+* 升级rust1.6.3
+
+```
+rustup install 1.63.0
+rustup default 1.63.0
+```
+
+* 检查版本
+
+```
+rustc --version
 ```
 
 接下来就可以用 cargo 命令进行编译了。

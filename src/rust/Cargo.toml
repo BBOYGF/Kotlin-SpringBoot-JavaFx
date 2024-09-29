@@ -1,5 +1,5 @@
 [package]
-name = "地质雷达数据处理分析软件"
+name = "测试_app"
 version = "1.0.0"
 authors = ["fan.guo <fan.guo@telecwin.com>"]
 edition = "2018"

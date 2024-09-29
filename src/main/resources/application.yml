@@ -8,3 +8,10 @@ spring:
     username:
     password:
     driver-class-name: org.sqlite.JDBC
+
+  mybatis-plus:
+    configuration:
+      log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+    type-aliases-package: com.app.po
+    mapper-locations: classpath:mapper/*.xml

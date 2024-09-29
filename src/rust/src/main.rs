@@ -35,7 +35,7 @@ fn main() {
     let output = command
         .arg("-classpath")
         .arg(classpath)
-        .arg("com.telecwin.javafx.Main")
+        .arg("com.app.Main")
         .output().unwrap_or_else(|e| {
         panic!("启动Java进程出现异常: {}", e)
     });
