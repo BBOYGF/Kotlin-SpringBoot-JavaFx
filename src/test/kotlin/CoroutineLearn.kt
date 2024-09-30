@@ -6,14 +6,20 @@ import javafx.geometry.Pos
 import javafx.scene.Scene
 import javafx.scene.control.Button
 import javafx.scene.control.Label
+import javafx.scene.control.ProgressBar
 import javafx.scene.layout.VBox
 import javafx.stage.Stage
 import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.flowOn
+import org.springframework.web.servlet.function.ServerResponse.async
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.io.InputStream
+import java.io.OutputStream
 
 
 /**
@@ -36,91 +42,97 @@ class CoroutineLearn : Application() {
         // 定义默认线程作用域
         val defaultScope = CoroutineScope(Dispatchers.Default)
         val uiScope = CoroutineScope(Dispatchers.Main)
+        val flow = flow {
+            for (i in 1..100) {
+                delay(50)
+                // 发射
+                emit(0.5)
+                println("发射 当前线程${Thread.currentThread().name}")
+            }
+        }.flowOn(Dispatchers.Default)
+        val sharedFlow = MutableSharedFlow<Int>(replay = 1)
+        val stateFlow = MutableStateFlow<Int>(0)
 
+        var value: Int = 0
         primaryStage?.run {
             scene = Scene(VBox().apply {
                 alignment = Pos.CENTER
                 val label = Label("当前显示")
+                val progressBar = ProgressBar(0.0)
+                children.add(progressBar)
                 children.add(label)
                 children.add(Button("获取值").apply {
                     onAction = EventHandler {
-                        println("当前线程${Thread.currentThread().name}")
-                        // 使用后台线程执行
-//                        method1(uiScope, label)
-//                        method2(defaultScope, uiScope, label)
-//                        method3(defaultScope, uiScope, label)
-//                        val job: Job = defaultScope.launch {
-//                            println("启动前")
-//                            delay(1000)
-//                            println("启动后")
-//                        }
-//                        Thread.sleep(500)
-//                        job.cancel()
-//                        Thread.sleep(1000)
-
-//                        val thread = Thread {
-//                            println("启动前")
-//                            Thread.sleep(1000)
-//                            println("启动后")
-//                        }
-//                        thread.start()
-//                        Thread.sleep(500)
-//                        thread.stop()
-//                        Thread.sleep(1000)
-                        val startTime = System.currentTimeMillis()
-//
-//                        val deferred1: Deferred<String> = defaultScope.async {
-//                            delay(500)
-//                            return@async "100"
-//                        }
-//                        val deferred2: Deferred<String> = defaultScope.async {
-//                            delay(1000)
-//                            return@async "200"
-//                        }
-//
-//                        uiScope.launch {
-//
-//                            try {
-//                                val str1 = deferred1.await()
-//                                val str2 = deferred2.await()
-//                                label.text = "$str1 |:| $str2"
-//                            } catch (e: Exception) {
-//                                println("产生异常:$e")
+//                        isDisable = true
+//                        println("当前线程${Thread.currentThread().name}")
+//                        defaultScope.launch {
+//                            for (i in 1..100) {
+//                                delay(100)
+//                                    progressBar.progress = (i / 100.0)
 //                            }
-//                            println("用时：${System.currentTimeMillis() - startTime}毫秒")
-//                        }
-                        val exceptionHandler = CoroutineExceptionHandler { _, exception ->
-                            println("Caught $exception")
-                        }
-                        // 方式二
-                        uiScope.launch {
-                            var str1 = ""
-                            var str2 = ""
-//                            supervisorScope {
-                                val job1 = defaultScope.launch {
-                                    delay(1000)
-                                    str1 = "100"
-                                }
-                                val job2 = defaultScope.launch(exceptionHandler) {
-                                    delay(1000)
-                                    1/0
-                                    str2 = "200"
-                                }
-
-                                job1.join()
-                                job2.join()
+//                            uiScope.launch {
+//                                isDisable = false
 //                            }
-                            label.text = "$str1 |:| $str2"
-                            println("用时：${System.currentTimeMillis() - startTime}毫秒")
+//                        }
+                        // flow
+
+//                        defaultScope.launch {
+//                            flow.collect {
+//                                progressBar.progress = it
+//                                println("接收：当前线程${Thread.currentThread().name}")
+//                            }
+//                        }
+//                        flow.onEach {
+//                            progressBar.progress = it
+//                            println("接收：当前线程${Thread.currentThread().name}")
+//                        }.launchIn(CoroutineScope(Dispatchers.Main))
+//                        isDisable = false
+                        // 热流
+                        defaultScope.launch {
+                            println("发射：当前线程${Thread.currentThread().name}")
+                            sharedFlow.emit(value++)
                         }
-
-
+//                        stateFlow.value = value++
                     }
                 })
+//                uiScope.launch {
+//                    sharedFlow.collect {
+//                        println("接收：当前线程${Thread.currentThread().name}")
+//                        label.text = "当前值：$it"
+//                    }
+//                    stateFlow.collect {
+//                        println("接收：当前线程${Thread.currentThread().name}")
+//                        label.text = "当前值：$it"
+//                    }
+//                }
+//                stateFlow.filter { it % 2 == 0 }.map { it + 1 }.onEach {
+//                    println("接收：当前线程${Thread.currentThread().name}")
+//                    label.text = "当前值：$it"
+//                }.launchIn(CoroutineScope(Dispatchers.Main))
 
+                children.add(Button("绑定Flow").apply {
+                    onAction = EventHandler {
+                        uiScope.launch {
+                            sharedFlow.collect {
+                                println("接收：当前线程${Thread.currentThread().name}")
+                                label.text = "当前值：$it"
+                            }
+                        }
+                    }
+                })
             }, 400.0, 600.0)
             initLicenceService()
             show()
+        }
+    }
+
+    private suspend fun computeOne(): Int {
+        return withContext(Dispatchers.IO) {
+            print("Coroutine #1: Calculating ...")
+            delay(2400)
+            val res = 12
+            println(", got $res")
+            return@withContext res
         }
     }
 
@@ -180,6 +192,23 @@ class CoroutineLearn : Application() {
             .build()
         // 创建服务类
         licenceService = retrofit.create(LicenceService::class.java)
+    }
+
+    inline fun InputStream.copyTo(
+        out: OutputStream,
+        bufferSize: Int = DEFAULT_BUFFER_SIZE,
+        progress: (Long) -> Unit
+    ): Long {
+        var bytesCopied: Long = 0
+        val buffer = ByteArray(bufferSize)
+        var bytes = read(buffer)
+        while (bytes >= 0) {
+            out.write(buffer, 0, bytes)
+            bytesCopied += bytes
+            bytes = read(buffer)
+            progress(bytesCopied) //在最后调用内联函数
+        }
+        return bytesCopied
     }
 
 }
