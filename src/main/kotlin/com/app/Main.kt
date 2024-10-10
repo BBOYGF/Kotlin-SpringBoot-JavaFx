@@ -4,17 +4,7 @@ package com.app
 import com.app.Constants.APP_NAME
 import com.app.Constants.ICON_PATH
 import com.app.Constants.SPLASH_SCREEN
-import com.app.service.MyService
-import com.app.util.GenerateCodeUtil
 import com.app.view_model.MainViewModel.textProp
-import com.baomidou.mybatisplus.core.exceptions.MybatisPlusException
-import com.baomidou.mybatisplus.core.toolkit.StringPool
-import com.baomidou.mybatisplus.generator.AutoGenerator
-import com.baomidou.mybatisplus.generator.InjectionConfig
-import com.baomidou.mybatisplus.generator.config.*
-import com.baomidou.mybatisplus.generator.config.po.TableInfo
-import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy
-import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine
 import javafx.application.Application
 import javafx.geometry.Pos
 import javafx.scene.Scene
@@ -30,12 +20,12 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.mybatis.spring.annotation.MapperScan
+import org.mybatis.spring.annotation.MapperScans
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 import org.springframework.context.ConfigurableApplicationContext
-import java.util.*
 
 @MapperScan("com.app.mapper")
 @SpringBootApplication
